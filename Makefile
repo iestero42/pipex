@@ -13,7 +13,6 @@
 # Variable
 
 NAME				=	pipex
-NAME_BONUS			=	pipex
 
 LIBS_DIR			=	libs
 LIBPIPEX			=	$(LIBS_DIR)/libPipex.a
@@ -32,11 +31,11 @@ SRCBNS_DIR			= 	srcbonus
 INC_DIR				=	inc
 INCBONUS_DIR		=	incbonus
 
-MAIN_DIR			=	main 
-UTILS_DIR			=	utils 
+MAIN_DIR			=	main
+UTILS_DIR			=	utils
 
-LDLIBS				=	$(LIBPUSHSWAP) $(LIBFT)
-LDLIBS_BONUS		=	$(LIBCHECKER) $(LIBFT)
+LDLIBS				=	$(LIBPIPEX) $(LIBFT)
+LDLIBS_BONUS		=	$(LIBPIPEX_BONUS) $(LIBFT)
 
 CC					=	gcc
 
@@ -57,13 +56,19 @@ ARFLAGS 			= 	rsc
 
 # Source
 
-MAIN_FILES	=
+MAIN_FILES	=	pipex.c
 
-SRCS_FILES	= 	
+UTILS_FILES	=	childs.c		\
+				exec_comand.c	\
+				free.c			\
+
+
+SRCS_FILES	= 	$(addprefix $(MAIN_DIR)/, $(MAIN_FILES)) \
+				$(addprefix $(UTILS_DIR)/, $(UTILS_FILES)) \
 
 SRCS 		=	$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 OBJS 		=	$(addprefix $(OBJ_DIR)/, $(SRCS_FILES:.c=.o))
-DIRS		=	$(OBJ_DIR)  $(addprefix $(OBJ_DIR)/, $() $() $() $())
+DIRS		=	$(OBJ_DIR)  $(addprefix $(OBJ_DIR)/, $(MAIN_DIR) $(UTILS_DIR))
 
 OBJ_MAIN	=	$(addprefix $(OBJ_DIR)/, $(addprefix $(MAIN_DIR)/, $(MAIN_FILES:.c=.o)))
 
@@ -96,6 +101,9 @@ fclean:				clean
 
 re:					fclean all
 
+print:
+	$(SRCS_FILES)
+
 
 # Mandatory
 
@@ -108,7 +116,7 @@ $(NAME):			$(LIBPIPEX) $(LIBFT) $(OBJ_MAIN)
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
-$(LIBPUSHSWAP): 	$(OBJS)
+$(LIBPIPEX): 		$(OBJS)
 	$(AR) $(ARFLAGS) $@ $(OBJS)
 
 $(DIRS):
@@ -123,11 +131,11 @@ $(LIBS_DIR):
 $(OBJBNS_DIR)/%.o:		$(SRCBNS_DIR)/%.c | $(DIRSBONUS) $(LIBS_DIR) 
 	$(CC) $(CFLAGS_BONUS) -c $< -o $@
 
-$(NAME_BONUS):			$(LIBPIPEX_BONUS) $(LIBFT) $(OBJBONUS_MAIN)
+#$(NAME):			$(LIBPIPEX_BONUS) $(LIBFT) $(OBJBONUS_MAIN)
 	@rm -rf $(NAME)
 	$(CC) $(OBJBONUS_MAIN) $(LDFLAGS_BONUS) -o $@	
 
-$(LIBCHECKER): 	$(OBJSBONUS)
+$(LIBPIPEX_BONUS): 		$(OBJSBONUS)
 	$(AR) $(ARFLAGS) $@ $(OBJSBONUS)
 
 $(DIRSBONUS):
