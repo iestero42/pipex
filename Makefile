@@ -13,15 +13,14 @@
 # Variable
 
 NAME				=	pipex
+BONUS				=	.bonus
 
 LIBS_DIR			=	libs
 LIBPIPEX			=	$(LIBS_DIR)/libPipex.a
 LIBPIPEX_BONUS		=	$(LIBS_DIR)/libPipexBonus.a
 
-
 LIBFT_DIR			=	./libft
 LIBFT				=	$(LIBFT_DIR)/libft.a
-
 
 OBJ_DIR				=	build
 OBJBNS_DIR			=	buildbonus
@@ -39,9 +38,9 @@ LDLIBS_BONUS		=	$(LIBPIPEX_BONUS) $(LIBFT)
 
 CC					=	gcc
 
-CFLAGS				=	-g $(INCLUDES) #$(SANITIZE)
+CFLAGS				=	-g $(INCLUDES) $(SANITIZE)
 CFLAGS_BONUS		=	-g $(INCLUDES_BONUS) #$(SANITIZE) 
-LDFLAGS				=	$(LDLIBS) #$(SANITIZE)
+LDFLAGS				=	$(LDLIBS) $(SANITIZE)
 LDFLAGS_BONUS		=	$(LDLIBS_BONUS) #$(SANITIZE)
 INCLUDES			=	-I$(INC_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/)
 INCLUDES_BONUS		=	-I$(INCBONUS_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/)
@@ -54,6 +53,8 @@ AR					= 	ar
 
 ARFLAGS 			= 	rsc
 
+FUNCTION_DEP		=	$(shell nm pipex | grep pipex_bonus)
+
 # Source
 
 MAIN_FILES	=	pipex.c
@@ -61,6 +62,8 @@ MAIN_FILES	=	pipex.c
 UTILS_FILES	=	childs.c		\
 				exec_comand.c	\
 				free.c			\
+				math_utils.c	\
+				errors.c		\
 
 
 SRCS_FILES	= 	$(addprefix $(MAIN_DIR)/, $(MAIN_FILES)) \
@@ -74,12 +77,20 @@ OBJ_MAIN	=	$(addprefix $(OBJ_DIR)/, $(addprefix $(MAIN_DIR)/, $(MAIN_FILES:.c=.o
 
 # Source Bonus
 
+MAIN_BONUS_FILES	=	pipex_bonus.c			\
 
-SRCSBONUS_FILES		=	
+UTILS_BONUS_FILES	=	childs_bonus.c			\
+						errors_bonus.c			\
+						exec_comand_bonus.c		\
+						free_bonus.c			\
+						math_utils_bonus.c		\
+
+SRCSBONUS_FILES		=	$(addprefix $(MAIN_DIR)/, $(MAIN_BONUS_FILES)) \
+						$(addprefix $(UTILS_DIR)/, $(UTILS_BONUS_FILES)) \
 
 SRCSBONUS 			=	$(addprefix $(SRCBNS_DIR)/, $(SRCSBONUS_FILES))
 OBJSBONUS 			=	$(addprefix $(OBJBNS_DIR)/, $(SRCSBONUS_FILES:.c=.o))
-DIRSBONUS			=	$(OBJBNS_DIR) $(addprefix $(OBJBNS_DIR)/, $(OPRTS_DIR) $(UTILS_DIR) $(MAIN_DIR))
+DIRSBONUS			=	$(OBJBNS_DIR) $(addprefix $(OBJBNS_DIR)/, $(UTILS_DIR) $(MAIN_DIR))
 
 OBJBONUS_MAIN		=	$(addprefix $(OBJBNS_DIR)/, $(addprefix $(MAIN_DIR)/, $(MAIN_BONUS_FILES:.c=.o)))
 
@@ -87,7 +98,12 @@ OBJBONUS_MAIN		=	$(addprefix $(OBJBNS_DIR)/, $(addprefix $(MAIN_DIR)/, $(MAIN_BO
 
 all:				$(NAME)
 
-bonus:				$(NAME_BONUS)
+bonus:				$(LIBPIPEX_BONUS) $(LIBFT) $(OBJBONUS_MAIN)
+	@if [ ! -f $(NAME) ]; then \
+		$(CC) $(OBJBONUS_MAIN) $(LDFLAGS_BONUS) -o $(NAME); \
+	else \
+		echo "make: Nothing to be done for 'bonus'."; \
+	fi
 
 clean:
 	make fclean -C $(LIBFT_DIR)
@@ -101,8 +117,8 @@ fclean:				clean
 
 re:					fclean all
 
-print:
-	$(SRCS_FILES)
+print-%:
+	@echo '$*=$($*)'
 
 
 # Mandatory
@@ -110,14 +126,14 @@ print:
 $(OBJ_DIR)/%.o:		$(SRC_DIR)/%.c | $(DIRS) $(LIBS_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME):			$(LIBPIPEX) $(LIBFT) $(OBJ_MAIN)
-	$(CC) $(OBJ_MAIN) $(LDFLAGS) -o $@	
+$(NAME):			$(OBJ_MAIN) | $(LIBPIPEX) $(LIBFT)
+	$(CC) $? $(LDFLAGS) -o $@	
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
 $(LIBPIPEX): 		$(OBJS)
-	$(AR) $(ARFLAGS) $@ $(OBJS)
+	$(AR) $(ARFLAGS) $@ $?
 
 $(DIRS):
 	$(MKDIR) $@
@@ -129,17 +145,17 @@ $(LIBS_DIR):
 # Bonus
 
 $(OBJBNS_DIR)/%.o:		$(SRCBNS_DIR)/%.c | $(DIRSBONUS) $(LIBS_DIR) 
-	$(CC) $(CFLAGS_BONUS) -c $< -o $@
-
-#$(NAME):			$(LIBPIPEX_BONUS) $(LIBFT) $(OBJBONUS_MAIN)
-	@rm -rf $(NAME)
-	$(CC) $(OBJBONUS_MAIN) $(LDFLAGS_BONUS) -o $@	
+	$(CC) $(CFLAGS_BONUS) -c $< -o $@				
 
 $(LIBPIPEX_BONUS): 		$(OBJSBONUS)
-	$(AR) $(ARFLAGS) $@ $(OBJSBONUS)
+	$(AR) $(ARFLAGS) $@ $?
 
 $(DIRSBONUS):
 	$(MKDIR) $@
+
+$(BONUS):				$(OBJBONUS_MAIN) | $(LIBPIPEX_BONUS) $(LIBFT) 
+	$(CC) $? $(LDFLAGS_BONUS) -o $(NAME)
+	@touch $@	
 
 .SILENT:			clean fclean
 .PHONY:				all clean fclean re bonus

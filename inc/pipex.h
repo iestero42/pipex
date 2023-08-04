@@ -28,7 +28,6 @@ typedef struct s_pipex
 	int		end[2];
 	int		infile;
 	int		outfile;
-	char	*mypaths;
 	char	**cmd_paths;
 	char	**cmd_arg;
 
@@ -49,5 +48,11 @@ void	close_pipes(int *end);
 void	parent_free(t_pipex *pipex);
 
 void	child_free(t_pipex *pipex);
+
+int		ft_size(char **pointer);
+
+void	fork_error(t_pipex *pipex);
+
+void	pipe_error(t_pipex *pipex);
 
 #endif

@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   free_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:17:27 by yunlovex          #+#    #+#             */
-/*   Updated: 2023/08/02 17:29:41 by yunlovex         ###   ########.fr       */
+/*   Updated: 2023/08/03 19:30:51 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-void	close_pipes(int *end)
+void	free_pipes(t_pipex *pipex)
 {
-	close(end[0]);
-	close(end[1]);
+	int	i;
+
+	i = 0;
+	while (i < pipex->pipes)
+	{
+		close(pipex->end[i]);
+		i++;
+	}
+	free(pipex->end);
+	close(pipex->infile);
+	close(pipex->outfile);
 }
 
 void	parent_free(t_pipex *pipex)
