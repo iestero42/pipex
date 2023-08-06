@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:17:27 by yunlovex          #+#    #+#             */
-/*   Updated: 2023/08/06 13:08:04 by yunlovex         ###   ########.fr       */
+/*   Updated: 2023/08/06 20:11:08 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	parent_free(t_pipex *pipex)
 		i--;
 	}
 	free(pipex->cmd_paths);
+	if (pipex->here_doc > 0)
+		unlink("tmp_doc.tmp");
 }
 
 void	child_free(t_pipex *pipex)

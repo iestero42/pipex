@@ -82,6 +82,7 @@ UTILS_BONUS_FILES	=	childs_bonus.c			\
 						exec_comand_bonus.c		\
 						free_bonus.c			\
 						math_utils_bonus.c		\
+						here_doc_bonus.c		\
 
 SRCSBONUS_FILES		=	$(addprefix $(MAIN_DIR)/, $(MAIN_BONUS_FILES)) \
 						$(addprefix $(UTILS_DIR)/, $(UTILS_BONUS_FILES)) \
@@ -119,7 +120,7 @@ print-%:
 $(OBJ_DIR)/%.o:		$(SRC_DIR)/%.c | $(DIRS) $(LIBS_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME):			$(OBJ_MAIN) | $(LIBPIPEX) $(LIBFT)
+$(NAME):			$(OBJ_MAIN) $(LIBPIPEX) $(LIBFT)
 	$(CC) $? $(LDFLAGS) -o $@	
 
 $(LIBFT):
@@ -146,7 +147,7 @@ $(LIBPIPEX_BONUS): 		$(OBJSBONUS)
 $(DIRSBONUS):
 	$(MKDIR) $@
 
-$(BONUS):				$(OBJBONUS_MAIN) | $(LIBPIPEX_BONUS) $(LIBFT) 
+$(BONUS):				$(OBJBONUS_MAIN) $(LIBPIPEX_BONUS) $(LIBFT) 
 	$(CC) $? $(LDFLAGS_BONUS) -o $(NAME)
 	@touch $@	
 

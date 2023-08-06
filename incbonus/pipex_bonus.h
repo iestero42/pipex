@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 09:22:48 by yunlovex          #+#    #+#             */
-/*   Updated: 2023/08/06 13:08:18 by yunlovex         ###   ########.fr       */
+/*   Updated: 2023/08/06 20:08:57 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	close_pipes(t_pipex *pipex);
 
 int		ft_strcmp(char *s1, char *s2);
 
-int		here_doc(t_pipex *pipex, char **argv);
+void	here_doc(t_pipex *pipex, char **argv, int ac);
 
 int		free_struct(t_pipex *pipex);
 
