@@ -6,22 +6,33 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:17:27 by yunlovex          #+#    #+#             */
-/*   Updated: 2023/08/03 19:30:51 by yunlovex         ###   ########.fr       */
+/*   Updated: 2023/08/06 13:08:04 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	free_pipes(t_pipex *pipex)
+void	close_pipes(t_pipex *pipex)
 {
 	int	i;
 
 	i = 0;
-	while (i < pipex->pipes)
+	while (i < 2 *pipex->pipes)
 	{
 		close(pipex->end[i]);
 		i++;
 	}
+}
+
+int	free_struct(t_pipex *pipex)
+{
+	free(pipex);
+	return (-1);
+}
+
+void	free_pipes(t_pipex *pipex)
+{
+	close_pipes(pipex);
 	free(pipex->end);
 	close(pipex->infile);
 	close(pipex->outfile);

@@ -28,6 +28,7 @@ int	open_pipes(t_pipex *pipex_args)
 	{
 		if (pipe(pipex_args->end + 2 * i) < 0)
 			return (-1);
+		i++;
 	}
 }
 
@@ -51,11 +52,10 @@ void	fork_process(t_pipex *pipex_args, char **envp, char **argv)
 			else
 				childs(pipex_args->end[2 * (i - 1)],
 					pipex_args->end[i * 2 + 1]);
-			free_pipes(pipex_args);
-			exec_comand(pipex_args, envp, argv[i + 2]);
-			i++;
-			exit(0);
+			close_pipes(pipex_args);
+			exec_comand(pipex_args, envp, argv[i + 2 + pipex_args->here_doc]);
 		}
+		i++;
 	}
 }
 
@@ -67,7 +67,7 @@ void	pipex_bonus(t_pipex *pipex_args, char **envp, char **argv)
 		return (pipe_error(pipex_args));
 	pipex_args->cmd_paths = ft_split(find_path(envp), ':');
 	fork_process(pipex_args, envp, argv);
-	free_pipes(pipex_args);
+	close_pipes(pipex_args);
 	i = -1;
 	while (++i < pipex_args->cmd_nb)
 		wait(NULL);
@@ -83,18 +83,20 @@ int	main(int ac, char **argv, char **envp)
 	pipex_args = (t_pipex *) malloc(sizeof(t_pipex));
 	if (!pipex_args)
 		return (-1);
-	pipex_args->end = (int *) malloc(sizeof(int) * 2 * (ac - 4));
-	if (!pipex_args->end)
-		return (-1);
-	pipex_args->cmd_nb = ac - 3;
-	pipex_args->pipes = ac - 4;
-	pipex_args->infile = open(argv[1], O_RDONLY);
-	pipex_args->outfile = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	here_doc(pipex_args, argv);
+	pipex_args->outfile = open(argv[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (pipex_args->infile < 0 || pipex_args->outfile < 0)
 	{
 		strerror(errno);
-		return (-1);
+		return (free_struct(pipex));
 	}
+	pipex_args->cmd_nb = ac - 3 - pipex_args->here_doc;
+	pipex_args->pipes = ac - 4 - pipex_args->here_doc;
+	if (pipex_args->cmd_nb == 1)
+		return (free_struct(pipex));
+	pipex_args->end = (int *) malloc(sizeof(int) * 2 * (ac - 4));
+	if (!pipex_args->end)
+		return (-1);
 	pipex_bonus(pipex_args, envp, argv);
 	free(pipex_args);
 	return (0);

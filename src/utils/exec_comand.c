@@ -31,10 +31,8 @@ static char	*get_cmd(char **paths, char *cmd)
 
 void	exec_comand(t_pipex *pipex_args, char **envp, char *argv)
 {
-	int		i;
 	char	*cmd;
 
-	i = -1;
 	pipex_args->cmd_arg = ft_split(argv, ' ');
 	cmd = get_cmd(pipex_args->cmd_paths, pipex_args->cmd_arg[0]);
 	if (!cmd)

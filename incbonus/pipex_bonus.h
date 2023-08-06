@@ -6,7 +6,7 @@
 /*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 09:22:48 by yunlovex          #+#    #+#             */
-/*   Updated: 2023/08/03 19:31:55 by yunlovex         ###   ########.fr       */
+/*   Updated: 2023/08/06 13:08:18 by yunlovex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_pipex
 	int		infile;
 	int		outfile;
 	int		pipes;
+	int		here_doc;
 	char	**cmd_paths;
 	char	**cmd_arg;
 
@@ -50,5 +51,13 @@ void	parent_free(t_pipex *pipex);
 void	free_pipes(t_pipex *pipex);
 
 void	child_free(t_pipex *pipex);
+
+void	close_pipes(t_pipex *pipex);
+
+int		ft_strcmp(char *s1, char *s2);
+
+int		here_doc(t_pipex *pipex, char **argv);
+
+int		free_struct(t_pipex *pipex);
 
 #endif

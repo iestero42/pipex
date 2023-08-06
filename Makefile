@@ -38,8 +38,8 @@ LDLIBS_BONUS		=	$(LIBPIPEX_BONUS) $(LIBFT)
 
 CC					=	gcc
 
-CFLAGS				=	-g $(INCLUDES) $(SANITIZE)
-CFLAGS_BONUS		=	-g $(INCLUDES_BONUS) #$(SANITIZE) 
+CFLAGS				=	-g -Wall -Werror -Wextra $(INCLUDES) $(SANITIZE)
+CFLAGS_BONUS		=	-g -Wall -Werror -Wextra $(INCLUDES_BONUS) #$(SANITIZE) 
 LDFLAGS				=	$(LDLIBS) $(SANITIZE)
 LDFLAGS_BONUS		=	$(LDLIBS_BONUS) #$(SANITIZE)
 INCLUDES			=	-I$(INC_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/)
@@ -52,8 +52,6 @@ RM					=	rm -f
 AR					= 	ar
 
 ARFLAGS 			= 	rsc
-
-FUNCTION_DEP		=	$(shell nm pipex | grep pipex_bonus)
 
 # Source
 
@@ -98,12 +96,7 @@ OBJBONUS_MAIN		=	$(addprefix $(OBJBNS_DIR)/, $(addprefix $(MAIN_DIR)/, $(MAIN_BO
 
 all:				$(NAME)
 
-bonus:				$(LIBPIPEX_BONUS) $(LIBFT) $(OBJBONUS_MAIN)
-	@if [ ! -f $(NAME) ]; then \
-		$(CC) $(OBJBONUS_MAIN) $(LDFLAGS_BONUS) -o $(NAME); \
-	else \
-		echo "make: Nothing to be done for 'bonus'."; \
-	fi
+bonus:				$(BONUS)
 
 clean:
 	make fclean -C $(LIBFT_DIR)
@@ -113,7 +106,7 @@ clean:
 
 fclean:				clean
 	$(RM) $(NAME)
-	$(RM) $(NAME_BONUS)
+	$(RM) $(BONUS)
 
 re:					fclean all
 
