@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:17:27 by yunlovex          #+#    #+#             */
-/*   Updated: 2023/08/06 20:11:08 by yunlovex         ###   ########.fr       */
+/*   Updated: 2023/08/11 13:13:57 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,17 @@ void	close_pipes(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	while (i < 2 *pipex->pipes)
+	while (i < 2 * pipex->pipes)
 	{
 		close(pipex->end[i]);
 		i++;
 	}
 }
 
-int	free_struct(t_pipex *pipex)
+int	free_pipex(t_pipex *pipex)
 {
 	free(pipex);
 	return (-1);
-}
-
-void	free_pipes(t_pipex *pipex)
-{
-	close_pipes(pipex);
-	free(pipex->end);
-	close(pipex->infile);
-	close(pipex->outfile);
 }
 
 void	parent_free(t_pipex *pipex)
@@ -51,6 +43,7 @@ void	parent_free(t_pipex *pipex)
 		i--;
 	}
 	free(pipex->cmd_paths);
+	free(pipex->end);
 	if (pipex->here_doc > 0)
 		unlink("tmp_doc.tmp");
 }

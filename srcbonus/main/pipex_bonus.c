@@ -88,16 +88,16 @@ int	main(int ac, char **argv, char **envp)
 	if (pipex_args->infile < 0 || pipex_args->outfile < 0)
 	{
 		strerror(errno);
-		return (free_struct(pipex_args));
+		return (free_pipex(pipex_args));
 	}
 	pipex_args->cmd_nb = ac - 3 - pipex_args->here_doc;
 	pipex_args->pipes = ac - 4 - pipex_args->here_doc;
 	if (pipex_args->cmd_nb == 1)
-		return (free_struct(pipex_args));
+		return (free_pipex(pipex_args));
 	pipex_args->end = (int *) malloc(sizeof(int) * 2
 			* (ac - 4 - pipex_args->here_doc));
 	if (!pipex_args->end)
-		return (-1);
+		return (free_pipex(pipex_args));
 	pipex_bonus(pipex_args, envp, argv);
 	free(pipex_args);
 	return (0);

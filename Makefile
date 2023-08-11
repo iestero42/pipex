@@ -38,9 +38,9 @@ LDLIBS_BONUS		=	$(LIBPIPEX_BONUS) $(LIBFT)
 
 CC					=	gcc
 
-CFLAGS				=	-g -Wall -Werror -Wextra $(INCLUDES) $(SANITIZE)
+CFLAGS				=	-g -Wall -Werror -Wextra $(INCLUDES) #$(SANITIZE)
 CFLAGS_BONUS		=	-g -Wall -Werror -Wextra $(INCLUDES_BONUS) #$(SANITIZE) 
-LDFLAGS				=	$(LDLIBS) $(SANITIZE)
+LDFLAGS				=	$(LDLIBS) #$(SANITIZE)
 LDFLAGS_BONUS		=	$(LDLIBS_BONUS) #$(SANITIZE)
 INCLUDES			=	-I$(INC_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/)
 INCLUDES_BONUS		=	-I$(INCBONUS_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/)

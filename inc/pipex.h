@@ -45,8 +45,6 @@ void	parent_free(t_pipex *pipex);
 
 void	close_pipes(int *end);
 
-void	parent_free(t_pipex *pipex);
-
 void	child_free(t_pipex *pipex);
 
 int		ft_size(char **pointer);
