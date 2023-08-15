@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:41:29 by yunlovex          #+#    #+#             */
-/*   Updated: 2023/08/06 20:08:50 by yunlovex         ###   ########.fr       */
+/*   Updated: 2023/08/15 08:41:34 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ void	create_temp_doc(t_pipex *pipex, char **argv)
 		if (pipex->infile < 0)
 			return ;
 		ft_putstr_fd(line, pipex->infile);
+		free(line);
 		line = get_next_line(0);
 	}
 	free(tmp);
+	free(line);
 	close(pipex->infile);
 	pipex->infile = open("tmp_doc.tmp", O_RDONLY);
 	pipex->here_doc = 1;

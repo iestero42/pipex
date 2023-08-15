@@ -53,4 +53,6 @@ void	fork_error(t_pipex *pipex);
 
 void	pipe_error(t_pipex *pipex);
 
+int		error_msg(char *str);
+
 #endif

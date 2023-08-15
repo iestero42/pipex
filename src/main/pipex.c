@@ -48,7 +48,10 @@ int	main(int ac, char **argv, char **envp)
 	t_pipex	*pipex_args;
 
 	if (ac != 5)
+	{
+		ft_printf("Error: %s", "Bad number of arguments");
 		return (-1);
+	}
 	pipex_args = (t_pipex *) malloc(sizeof(t_pipex));
 	if (!pipex_args)
 		return (-1);
@@ -56,7 +59,7 @@ int	main(int ac, char **argv, char **envp)
 	pipex_args->outfile = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (pipex_args->infile < 0 || pipex_args->outfile < 0)
 	{
-		strerror(errno);
+		perror(argv[1]);
 		return (-1);
 	}
 	pipex(pipex_args, envp, argv);

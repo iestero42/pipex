@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:17:27 by yunlovex          #+#    #+#             */
-/*   Updated: 2023/08/11 13:13:57 by iestero-         ###   ########.fr       */
+/*   Updated: 2023/08/15 08:57:24 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ void	close_pipes(t_pipex *pipex)
 
 int	free_pipex(t_pipex *pipex)
 {
+	if (pipex->infile < 0)
+		close(pipex->infile);
+	if (pipex->outfile < 0)
+		close(pipex->outfile);
+	if (pipex->here_doc > 0)
+		unlink("tmp_doc.tmp");
 	free(pipex);
 	return (-1);
 }
