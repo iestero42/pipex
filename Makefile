@@ -15,6 +15,30 @@
 NAME				=	pipex
 BONUS				=	.bonus
 
+GREEN 				= 	\033[0;32m
+LIGHT_GRAY 			= 	\033[90m
+BLUE 				= 	\033[0;34m
+NC 					= 	\033[0m
+YELLOW				=	\033[93m
+
+SMILEY				=	\xF0\x9F\x98\x81
+CHECK				=	\xE2\x9C\x85
+
+MANDATORY_PART 		=	"\n ******************************************************\n				\
+						*                                                    *\n					\
+						*                                                    *\n					\
+						*                   $(YELLOW)MANDATORY PART$(NC)                   *\n		\
+						*                                                    *\n					\
+						*                                                    *\n					\
+						******************************************************\n\n"
+BONUS_PART 			=	"\n ******************************************************\n				\
+						*                                                    *\n					\
+						*                                                    *\n					\
+						*                     $(YELLOW)BONUS PART$(NC)                     *\n		\
+						*                                                    *\n					\
+						*                                                    *\n					\
+						******************************************************\n\n"					\
+
 LIBS_DIR			=	libs
 LIBPIPEX			=	$(LIBS_DIR)/libPipex.a
 LIBPIPEX_BONUS		=	$(LIBS_DIR)/libPipexBonus.a
@@ -33,7 +57,7 @@ INCBONUS_DIR		=	incbonus
 MAIN_DIR			=	main
 UTILS_DIR			=	utils
 
-LDLIBS				=	$(LIBPIPEX) $(LIBFT)
+LDLIBS				=	$(LIBPIPEX) $(LIBFT)  
 LDLIBS_BONUS		=	$(LIBPIPEX_BONUS) $(LIBFT)
 
 CC					=	gcc
@@ -57,11 +81,11 @@ ARFLAGS 			= 	rsc
 
 MAIN_FILES	=	pipex.c
 
-UTILS_FILES	=	childs.c		\
-				exec_comand.c	\
-				free.c			\
-				math_utils.c	\
+UTILS_FILES	=	free.c			\
+				childs.c		\
 				errors.c		\
+				math_utils.c	\
+				exec_comand.c	\
 
 
 SRCS_FILES	= 	$(addprefix $(MAIN_DIR)/, $(MAIN_FILES)) \
@@ -77,12 +101,12 @@ OBJ_MAIN	=	$(addprefix $(OBJ_DIR)/, $(addprefix $(MAIN_DIR)/, $(MAIN_FILES:.c=.o
 
 MAIN_BONUS_FILES	=	pipex_bonus.c			\
 
-UTILS_BONUS_FILES	=	childs_bonus.c			\
+UTILS_BONUS_FILES	=	free_bonus.c			\
+						childs_bonus.c			\
 						errors_bonus.c			\
-						exec_comand_bonus.c		\
-						free_bonus.c			\
-						math_utils_bonus.c		\
 						here_doc_bonus.c		\
+						math_utils_bonus.c		\
+						exec_comand_bonus.c		\
 
 SRCSBONUS_FILES		=	$(addprefix $(MAIN_DIR)/, $(MAIN_BONUS_FILES)) \
 						$(addprefix $(UTILS_DIR)/, $(UTILS_BONUS_FILES)) \
@@ -95,7 +119,10 @@ OBJBONUS_MAIN		=	$(addprefix $(OBJBNS_DIR)/, $(addprefix $(MAIN_DIR)/, $(MAIN_BO
 
 # Rules
 
-all:				$(NAME)
+all:			 	$(NAME)
+
+print:
+	echo -n $(MANDATORY_PART)
 
 bonus:				$(BONUS)
 
@@ -111,45 +138,56 @@ fclean:				clean
 
 re:					fclean all
 
-print-%:
-	@echo '$*=$($*)'
-
 
 # Mandatory
 
 $(OBJ_DIR)/%.o:		$(SRC_DIR)/%.c | $(DIRS) $(LIBS_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@echo -n "\r\r\t---> $(BLUE)Compiling:\t$(LIGHT_GRAY)$<$(NC)"
+	@sleep 0.5
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME):			$(OBJ_MAIN) $(LIBPIPEX) $(LIBFT)
-	$(CC) $? $(LDFLAGS) -o $@	
+$(NAME):			$(OBJ_MAIN) $(LDFLAGS) 
+	@$(CC) $(OBJ_MAIN) $(LDFLAGS) -o $@
+	@sleep 2
+	@clear
+	@echo "\n$(GREEN)The program is ready.$(SMILEY) $(CHECK)$(NC)"	
 
 $(LIBFT):
-	make -C $(LIBFT_DIR)
+	@echo "\n\n   --- $(BLUE)Creating:\t$(LIGHT_GRAY)libft$(NC)"
+	@make -C $(LIBFT_DIR) > /dev/null
 
 $(LIBPIPEX): 		$(OBJS)
-	$(AR) $(ARFLAGS) $@ $?
+	@$(AR) $(ARFLAGS) $@ $?
 
 $(DIRS):
-	$(MKDIR) $@
+	@echo $(MANDATORY_PART)
+	@echo "\n   ---> $(BLUE)Creating:\t$(LIGHT_GRAY)libPipex$(NC)"
+	@$(MKDIR) $(DIRS)
 
 $(LIBS_DIR):
-	$(MKDIR) $@
+	@$(MKDIR) $@
 
 
 # Bonus
 
-$(OBJBNS_DIR)/%.o:		$(SRCBNS_DIR)/%.c | $(DIRSBONUS) $(LIBS_DIR) 
-	$(CC) $(CFLAGS_BONUS) -c $< -o $@				
+$(OBJBNS_DIR)/%.o:		$(SRCBNS_DIR)/%.c | $(DIRSBONUS) $(LIBS_DIR)
+	@echo -n "\r\r\t---> $(BLUE)Compiling:\t$(LIGHT_GRAY)$<$(NC)"
+	@sleep 0.5
+	@$(CC) $(CFLAGS_BONUS) -c $< -o $@				
 
 $(LIBPIPEX_BONUS): 		$(OBJSBONUS)
-	$(AR) $(ARFLAGS) $@ $?
+	@$(AR) $(ARFLAGS) $@ $?
 
 $(DIRSBONUS):
-	$(MKDIR) $@
+	@echo $(BONUS_PART)
+	@echo "\n   ---> $(BLUE)Creating:\t$(LIGHT_GRAY)libPipexBonus$(NC)"
+	@$(MKDIR) $(DIRSBONUS)
 
-$(BONUS):				$(OBJBONUS_MAIN) $(LIBPIPEX_BONUS) $(LIBFT) 
-	$(CC) $? $(LDFLAGS_BONUS) -o $(NAME)
-	@touch $@	
+$(BONUS):				$(LDFLAGS_BONUS) $(OBJBONUS_MAIN)
+	@$(CC) $(OBJBONUS_MAIN) $(LDFLAGS_BONUS) -o $@
+	@touch $@
+	@clear
+	@echo "\n$(GREEN)The program is ready.$(SMILEY) $(CHECK)$(NC)"		
 
 .SILENT:			clean fclean
-.PHONY:				all clean fclean re bonus
+.PHONY:				all clean fclean re bonus 
