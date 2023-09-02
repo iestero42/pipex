@@ -121,20 +121,20 @@ OBJBONUS_MAIN		=	$(addprefix $(OBJBNS_DIR)/, $(addprefix $(MAIN_DIR)/, $(MAIN_BO
 
 all:			 	$(NAME)
 
-print:
-	echo -n $(MANDATORY_PART)
-
 bonus:				$(BONUS)
 
 clean:
-	make fclean -C $(LIBFT_DIR)
+	make -s clean -C $(LIBFT_DIR)
 	$(RM) -r $(LIBS_DIR)
 	$(RM) -r $(OBJ_DIR)
 	$(RM) -r $(OBJBNS_DIR)
+	@echo "---- $(YELLOW)Object files deleted. $(CHECK)$(NC) ----"
 
 fclean:				clean
+	make -s fclean -C $(LIBFT_DIR)
 	$(RM) $(NAME)
 	$(RM) $(BONUS)
+	@echo "---- $(YELLOW)Binary files deleted. $(CHECK)$(NC) ----"
 
 re:					fclean all
 
@@ -148,16 +148,15 @@ $(OBJ_DIR)/%.o:		$(SRC_DIR)/%.c | $(DIRS) $(LIBS_DIR)
 
 $(NAME):			$(OBJ_MAIN) $(LDFLAGS) 
 	@$(CC) $(OBJ_MAIN) $(LDFLAGS) -o $@
-	@sleep 2
-	@clear
+	@sleep 1
 	@echo "\n$(GREEN)The program is ready.$(SMILEY) $(CHECK)$(NC)"	
 
 $(LIBFT):
-	@echo "\n\n   --- $(BLUE)Creating:\t$(LIGHT_GRAY)libft$(NC)"
-	@make -C $(LIBFT_DIR) > /dev/null
+	@(cd $(LIBFT_DIR) && make -s all)
 
 $(LIBPIPEX): 		$(OBJS)
 	@$(AR) $(ARFLAGS) $@ $?
+	@echo "\n   $(CHECK) $(GREEN)Library created.$(NC)"
 
 $(DIRS):
 	@echo $(MANDATORY_PART)
@@ -177,6 +176,7 @@ $(OBJBNS_DIR)/%.o:		$(SRCBNS_DIR)/%.c | $(DIRSBONUS) $(LIBS_DIR)
 
 $(LIBPIPEX_BONUS): 		$(OBJSBONUS)
 	@$(AR) $(ARFLAGS) $@ $?
+	@echo "\n   $(CHECK) $(GREEN)Library created.$(NC)"
 
 $(DIRSBONUS):
 	@echo $(BONUS_PART)
@@ -186,7 +186,6 @@ $(DIRSBONUS):
 $(BONUS):				$(LDFLAGS_BONUS) $(OBJBONUS_MAIN)
 	@$(CC) $(OBJBONUS_MAIN) $(LDFLAGS_BONUS) -o $@
 	@touch $@
-	@clear
 	@echo "\n$(GREEN)The program is ready.$(SMILEY) $(CHECK)$(NC)"		
 
 .SILENT:			clean fclean
