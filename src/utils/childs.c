@@ -12,6 +12,15 @@
 
 #include "pipex.h"
 
+/**
+ * Child_one:
+ * * Function to be executed by the first child process in a pipeline.
+ *
+ * @param pipex_args   Structure containing pipeline arguments and 
+ * 						file descriptors.
+ * @param envp         Array of environment strings.
+ * @param argv         Array of arguments for the main program.
+ */
 void	child_one(t_pipex *pipex_args, char **envp, char **argv)
 {
 	if (dup2(pipex_args->infile, 0) < 0 || dup2(pipex_args->end[1], 1) < 0)
@@ -28,6 +37,15 @@ void	child_one(t_pipex *pipex_args, char **envp, char **argv)
 	exit(0);
 }
 
+/**
+ * Child_one:
+ * * Function to be executed by the second child process in a pipeline.
+ *
+ * @param pipex_args   Structure containing pipeline arguments and 
+ * 						file descriptors.
+ * @param envp         Array of environment strings.
+ * @param argv         Array of arguments for the main program.
+ */
 void	child_two(t_pipex *pipex_args, char **envp, char **argv)
 {
 	if (dup2(pipex_args->outfile, 1) < 0 || dup2(pipex_args->end[0], 0) < 0)

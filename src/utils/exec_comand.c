@@ -12,6 +12,15 @@
 
 #include "pipex.h"
 
+/**
+ * Get_cmd
+ * * Searches for the specified command in the provided paths and 
+ * * returns the full command path.
+ *
+ * @param paths   Array of path strings to search for the command.
+ * @param cmd     The command to find.
+ * @return        The full command path if found, or NULL if not found.
+ */
 static char	*get_cmd(char **paths, char *cmd)
 {
 	char	*tmp;
@@ -29,6 +38,15 @@ static char	*get_cmd(char **paths, char *cmd)
 	return (NULL);
 }
 
+/**
+ * Exec_comand
+ * * Executes a command with arguments in the child process.
+ *
+ * @param pipex_args   Structure containing pipeline 
+ * 						arguments and file descriptors.
+ * @param envp         Array of environment strings.
+ * @param argv         The command to execute along with its arguments.
+ */
 void	exec_comand(t_pipex *pipex_args, char **envp, char *argv)
 {
 	char	*cmd;

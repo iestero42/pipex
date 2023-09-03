@@ -12,6 +12,14 @@
 
 #include "pipex_bonus.h"
 
+/**
+ * Find_path:
+ * * Find and return the 'PATH' environment variable value 
+ * * from the given environment strings.
+ *
+ * @param envp   Array of environment strings.
+ * @return       A pointer to the 'PATH' environment variable value.
+ */
 char	*find_path(char **envp)
 {
 	while (ft_strncmp("PATH", *envp, 4))
@@ -19,6 +27,14 @@ char	*find_path(char **envp)
 	return (*envp + 5);
 }
 
+/**
+ * Open_pipes:
+ * * Open pipes for inter-process communication.
+ *
+ * @param pipex_args   Structure containing pipeline 
+ * 						arguments and file descriptors.
+ * @return             0 on success, -1 on failure.
+ */
 int	open_pipes(t_pipex *pipex_args)
 {
 	int	i;
@@ -33,6 +49,16 @@ int	open_pipes(t_pipex *pipex_args)
 	return (0);
 }
 
+/**
+ * Fork_process:
+ * * Fork child processes to execute commands.
+ *
+ * @param pipex_args   Structure containing pipeline 
+ * 						arguments and file descriptors.
+ * @param envp         Array of environment strings.
+ * @param argv         Array of arguments for the main program.
+ * @return             0 on success, -1 on failure.
+ */
 int	fork_process(t_pipex *pipex_args, char **envp, char **argv)
 {
 	pid_t	child;
@@ -61,6 +87,16 @@ int	fork_process(t_pipex *pipex_args, char **envp, char **argv)
 	return (0);
 }
 
+/**
+ * Pipex_bonus:
+ * * Executes the pipex program with bonus features, 
+ * * including multiple pipes.
+ *
+ * @param pipex_args   Structure containing pipeline 
+ * 						arguments and file descriptors.
+ * @param envp         Array of environment strings.
+ * @param argv         Array of arguments for the main program.
+ */
 void	pipex_bonus(t_pipex *pipex_args, char **envp, char **argv)
 {
 	int	i;
@@ -77,6 +113,11 @@ void	pipex_bonus(t_pipex *pipex_args, char **envp, char **argv)
 	parent_free(pipex_args);
 }
 
+/**
+ * Main:
+ * * This is the principal method and the one responsable of
+ * * generating the binary
+*/
 int	main(int ac, char **argv, char **envp)
 {
 	t_pipex	*pipex_args;

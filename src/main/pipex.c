@@ -12,6 +12,14 @@
 
 #include "pipex.h"
 
+/**
+ * Find_path:
+ * * Finds and returns the 'PATH' environment variable value from the given 
+ * * environment strings.
+ *
+ * @param envp   Array of environment strings.
+ * @return       A pointer to the 'PATH' environment variable value.
+ */
 char	*find_path(char **envp)
 {
 	while (ft_strncmp("PATH", *envp, 4))
@@ -19,6 +27,15 @@ char	*find_path(char **envp)
 	return (*envp + 5);
 }
 
+/**
+ * Pipex:
+ * * Executes a pipeline process with two child processes.
+ *
+ * @param pipex_args   Structure containing arguments and 
+ * 						file descriptors for the pipeline.
+ * @param envp         Array of environment strings.
+ * @param argv         Array of arguments for the main program.
+ */
 void	pipex(t_pipex *pipex_args, char **envp, char **argv)
 {
 	pid_t	child1;
@@ -43,6 +60,11 @@ void	pipex(t_pipex *pipex_args, char **envp, char **argv)
 	parent_free(pipex_args);
 }
 
+/**
+ * Main:
+ * * This is the principal method and the one responsable of
+ * * generating the binary
+*/
 int	main(int ac, char **argv, char **envp)
 {
 	t_pipex	*pipex_args;
