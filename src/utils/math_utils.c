@@ -3,22 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   math_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunlovex <yunlovex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:47:33 by yunlovex          #+#    #+#             */
-/*   Updated: 2023/09/03 11:48:20 by yunlovex         ###   ########.fr       */
+/*   Updated: 2023/09/07 15:46:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 /**
- * Ft_size:
- * * Calculates the size (number of elements) in a 
- * * null-terminated array of strings.
+ * @brief Calculate the size of a null-terminated string array.
  *
- * @param pointer   Pointer to the array of strings.
- * @return          The number of elements (size) in the array.
+ * This function calculates and returns the size (number of elements) of a
+ * null-terminated string array.
+ *
+ * @param pointer   A pointer to the null-terminated string array.
+ *
+ * @return          The number of elements in the string array.
+ *
+ * @details
+ * The 'ft_size' function iterates through the null-terminated string array
+ * 'pointer' and counts the number of elements until a NULL pointer is
+ * encountered. It returns the count as the size of the array.
  */
 int	ft_size(char **pointer)
 {

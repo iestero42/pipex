@@ -142,7 +142,7 @@ re:					fclean all
 # Mandatory
 
 $(OBJ_DIR)/%.o:		$(SRC_DIR)/%.c | $(DIRS) $(LIBS_DIR)
-	@echo -n "\r\r\t---> $(BLUE)Compiling:\t$(LIGHT_GRAY)$<$(NC)"
+	@printf "\r\r\t---> $(BLUE)Compiling:\t$(LIGHT_GRAY)$<$(NC)"
 	@sleep 0.5
 	@$(CC) $(CFLAGS) -c $< -o $@
 
@@ -170,7 +170,7 @@ $(LIBS_DIR):
 # Bonus
 
 $(OBJBNS_DIR)/%.o:		$(SRCBNS_DIR)/%.c | $(DIRSBONUS) $(LIBS_DIR)
-	@echo -n "\r\r\t---> $(BLUE)Compiling:\t$(LIGHT_GRAY)$<$(NC)"
+	@printf "\r\r\t---> $(BLUE)Compiling:\t$(LIGHT_GRAY)$<$(NC)"
 	@sleep 0.5
 	@$(CC) $(CFLAGS_BONUS) -c $< -o $@				
 

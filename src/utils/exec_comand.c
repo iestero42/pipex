@@ -13,13 +13,29 @@
 #include "pipex.h"
 
 /**
- * Get_cmd
- * * Searches for the specified command in the provided paths and 
- * * returns the full command path.
+ * @brief Find the full path to an executable command.
  *
- * @param paths   Array of path strings to search for the command.
- * @param cmd     The command to find.
- * @return        The full command path if found, or NULL if not found.
+ * This function searches for the full path to an executable command 'cmd' by
+ * iterating through the 'paths' array. It constructs the full path by 
+ * appending 'cmd' to each path in 'paths', and it checks if the command 
+ * is accessible using the 'access' system call.
+ *
+ * @param paths   Array of search paths for executable commands.
+ * @param cmd     The name of the command to find.
+ *
+ * @return        A pointer to the full path of the command, or NULL 
+ * 					if not found.
+ *
+ * @details
+ * The 'get_cmd' function is responsible for locating the full path of an 
+ * executable command by searching through the 'paths' array, which typically 
+ * contains directories where executable files are located.
+ *
+ * It iterates through 'paths', constructs the full path by appending '/' and 
+ * 'cmd' to each path, and checks if the constructed path is accessible using 
+ * 'access' with mode 0 (F_OK). If a valid path to the command is found, it 
+ * is returned. Otherwise, it returns NULL to indicate that the command was 
+ * not found.
  */
 static char	*get_cmd(char **paths, char *cmd)
 {
@@ -39,13 +55,26 @@ static char	*get_cmd(char **paths, char *cmd)
 }
 
 /**
- * Exec_comand
- * * Executes a command with arguments in the child process.
+ * @brief Execute a command using 'execve'.
  *
- * @param pipex_args   Structure containing pipeline 
- * 						arguments and file descriptors.
- * @param envp         Array of environment strings.
- * @param argv         The command to execute along with its arguments.
+ * This function executes a command specified in 'argv' using the 'execve'
+ * system call. It also splits the command arguments, searches for the full
+ * command path using 'get_cmd', and handles error conditions.
+ *
+ * @param pipex_args  A pointer to the 't_pipex' structure containing pipeline
+ *                    arguments.
+ * @param envp        Array of environment strings.
+ * @param argv        The command string to execute.
+ *
+ * @details
+ * The 'exec_comand' function is responsible for executing a command specified
+ * in 'argv' using the 'execve' system call. It follows these steps: 1. Splits
+ * the command string 'argv' into separate arguments using 'ft_split'. 2.
+ * Searches for the full path to the command using 'get_cmd' and 'cmd_paths'.
+ * 3. If a valid command path is found, it attempts to execute the command using
+ * 'execve'. 4. If 'execve' fails, it cleans up resources, displays an error
+ * message, and exits. 5. Memory allocated for 'cmd' and 'cmd_arg' is freed, and
+ * child resources are released.
  */
 void	exec_comand(t_pipex *pipex_args, char **envp, char *argv)
 {
