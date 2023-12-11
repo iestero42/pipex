@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:17:27 by yunlovex          #+#    #+#             */
-/*   Updated: 2023/09/07 15:34:17 by marvin           ###   ########.fr       */
+/*   Updated: 2023/12/11 12:12:47 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
  * This function closes all pipe descriptors stored in the 'end' array within
  * the 't_pipex' structure. It is used to release resources related to pipes.
  *
- * @param pipex   A pointer to the 't_pipex' structure containing pipe descriptors.
+ * @param pipex   A pointer to the 't_pipex' structure containing pipe 
+ * 					descriptors.
  *
  * @details
  * The 'close_pipes' function iterates through the 'end' array and closes each

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math_utils_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:47:33 by yunlovex          #+#    #+#             */
-/*   Updated: 2023/09/07 15:48:25 by marvin           ###   ########.fr       */
+/*   Updated: 2023/12/11 12:13:34 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
  * 'pointer' and counts the number of elements until a NULL pointer is
  * encountered. It returns the count as the size of the array.
  */
-int ft_size(char **pointer)
+int	ft_size(char **pointer)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (pointer[i])
@@ -62,10 +62,10 @@ int ft_size(char **pointer)
  * is designed to work with strings of different lengths and avoids
  * buffer overflow issues.
  */
-int ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
-	int len_s1;
-	int len_s2;
+	int	len_s1;
+	int	len_s2;
 
 	len_s2 = ft_strlen(s2);
 	len_s1 = ft_strlen(s1);

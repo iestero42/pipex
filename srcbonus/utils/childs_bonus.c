@@ -12,7 +12,6 @@
 
 #include "pipex_bonus.h"
 
-
 /**
  * @brief Redirects standard input and output for a child process.
  *
