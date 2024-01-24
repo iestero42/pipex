@@ -70,12 +70,12 @@ void	pipex(t_pipex *pipex_args, char **envp, char **argv)
 	pipex_args->cmd_paths = ft_split(find_path(envp), ':');
 	child1 = fork();
 	if (child1 < 0)
-		return (fork_error(pipex_args));
+		perror("fork");
 	if (child1 == 0)
 		child_one(pipex_args, envp, argv);
 	child2 = fork();
 	if (child2 < 0)
-		return (fork_error(pipex_args));
+		perror("fork");
 	if (child2 == 0)
 		child_two(pipex_args, envp, argv);
 	close_pipes(pipex_args->end);
@@ -113,19 +113,18 @@ int	main(int ac, char **argv, char **envp)
 
 	if (ac != 5)
 	{
-		ft_printf("Error: %s", "Bad number of arguments");
+		ft_putstr_fd(strerror(EINVAL), 2);
 		return (-1);
 	}
 	pipex_args = (t_pipex *) malloc(sizeof(t_pipex));
 	if (!pipex_args)
 		return (-1);
 	pipex_args->infile = open(argv[1], O_RDONLY);
-	pipex_args->outfile = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if (pipex_args->infile < 0 || pipex_args->outfile < 0)
-	{
+	if (pipex_args->infile < 0)
 		perror(argv[1]);
-		return (-1);
-	}
+	pipex_args->outfile = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (pipex_args->outfile < 0)
+		perror(argv[4]);
 	pipex(pipex_args, envp, argv);
 	free(pipex_args);
 	return (0);

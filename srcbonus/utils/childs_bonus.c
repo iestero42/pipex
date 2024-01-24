@@ -42,7 +42,7 @@ void	childs(int read, int write)
 	if (dup2(read, 0) < 0
 		|| dup2(write, 1) < 0)
 	{
-		perror("Error in dup");
+		perror("Error");
 		exit(1);
 	}
 }

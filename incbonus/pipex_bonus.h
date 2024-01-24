@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 09:22:48 by yunlovex          #+#    #+#             */
-/*   Updated: 2023/08/15 08:55:37 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/01/24 11:10:55 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ typedef struct s_pipex
 
 void	childs(int read, int write);
 
-int		fork_error(t_pipex *pipex);
-
 void	pipe_error(t_pipex *pipex);
 
 void	exec_comand(t_pipex *pipex_args, char **envp, char *argv);
@@ -58,6 +56,6 @@ void	here_doc(t_pipex *pipex, char **argv, int ac);
 
 int		free_pipex(t_pipex *pipex);
 
-int		error_msg(char *str);
+int		error_msg(void);
 
 #endif

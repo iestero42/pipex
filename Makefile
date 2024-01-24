@@ -184,7 +184,7 @@ $(DIRSBONUS):
 	@$(MKDIR) $(DIRSBONUS)
 
 $(BONUS):				$(LDFLAGS_BONUS) $(OBJBONUS_MAIN)
-	@$(CC) $(OBJBONUS_MAIN) $(LDFLAGS_BONUS) -o $@
+	@$(CC) $(OBJBONUS_MAIN) $(LDFLAGS_BONUS) -o $(NAME)
 	@touch $@
 	@echo "\n$(GREEN)The program is ready.$(SMILEY) $(CHECK)$(NC)"		
 

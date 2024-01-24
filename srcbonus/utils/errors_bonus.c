@@ -3,42 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   errors_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:30:51 by yunlovex          #+#    #+#             */
-/*   Updated: 2023/09/07 15:23:40 by marvin           ###   ########.fr       */
+/*   Updated: 2024/01/24 10:48:31 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-
-/**
- * @brief Handles errors during fork process and cleans up resources.
- *
- * This function handles errors that may occur during the fork process. It is
- * responsible for cleaning up resources associated with the child process and
- * printing an error message using 'perror'.
- *
- * @param pipex   A pointer to the 't_pipex' structure containing pipeline
- *                arguments and file descriptors.
- *
- * @return        -1 to indicate an error condition.
- *
- * @details
- * The 'fork_error' function is typically called in a child process after a
- * 'fork' system call failure. Its primary purpose is to perform resource
- * cleanup and report the error using 'perror'.
- *
- * @note
- * This function should be used when the 'fork' system call fails, and any
- * required error handling in the parent process should be handled separately.
- */
-int	fork_error(t_pipex *pipex)
-{
-	parent_free(pipex);
-	perror("Error in fork process");
-	return (-1);
-}
 
 /**
  * @brief Handles errors during pipe process and cleans up resources.
@@ -69,7 +41,7 @@ void	pipe_error(t_pipex *pipex)
 	free(pipex->end);
 	if (pipex->here_doc > 0)
 		unlink("tmp_doc.tmp");
-	return (perror("Error in pipe process"));
+	perror("pipex");
 }
 
 /**
@@ -92,8 +64,8 @@ void	pipe_error(t_pipex *pipex)
  * This function should be used to display informative error messages when
  * necessary and to indicate that an error has occurred.
  */
-int	error_msg(char *str)
+int	error_msg(void)
 {
-	ft_printf("Error: %s", str);
+	ft_putstr_fd(strerror(EINVAL), 2);
 	return (-1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:41:29 by yunlovex          #+#    #+#             */
-/*   Updated: 2023/09/07 15:38:07 by marvin           ###   ########.fr       */
+/*   Updated: 2024/01/24 11:08:15 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	create_temp_doc(t_pipex *pipex, char **argv)
 
 	line = get_next_line(0);
 	tmp = ft_strjoin(ft_strdup(argv[2]), "\n");
+	pipex->infile = open("tmp_doc.tmp", O_CREAT | O_RDWR | O_APPEND, 0644);
+	if (pipex->infile < 0)
+		return (perror("tmp_doc.tmp"));
 	while (ft_strcmp(line, tmp))
 	{
-		pipex->infile = open("tmp_doc.tmp", O_CREAT | O_RDWR | O_APPEND, 0644);
-		if (pipex->infile < 0)
-			return ;
 		ft_putstr_fd(line, pipex->infile);
 		free(line);
 		line = get_next_line(0);
@@ -53,6 +53,8 @@ void	create_temp_doc(t_pipex *pipex, char **argv)
 	free(line);
 	close(pipex->infile);
 	pipex->infile = open("tmp_doc.tmp", O_RDONLY);
+	if (pipex->infile < 0)
+		return (perror("tmp_doc.tmp"));
 	pipex->here_doc = 1;
 }
 
@@ -81,11 +83,17 @@ void	here_doc(t_pipex *pipex, char **argv, int ac)
 	{
 		create_temp_doc(pipex, argv);
 		pipex->outfile = open(argv[ac - 1], O_CREAT | O_RDWR, 0644);
+		if (pipex->outfile < 0)
+			perror(argv[ac - 1]);
 	}
 	else
 	{
 		pipex->infile = open(argv[1], O_RDONLY);
+		if (pipex->infile < 0)
+			perror(argv[1]);
 		pipex->outfile = open(argv[ac - 1], O_CREAT | O_RDWR
 				| O_TRUNC, 0644);
+		if (pipex->outfile < 0)
+			perror(argv[ac - 1]);
 	}
 }

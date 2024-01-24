@@ -113,14 +113,14 @@ int	fork_process(t_pipex *pipex_args, char **envp, char **argv)
 	{
 		child = fork();
 		if (child < 0)
-			return (fork_error(pipex_args));
-		if (child == 0)
+			perror("fork");
+		else if (child == 0)
 		{
-			if (i == 0)
+			if (i == 0 && pipex_args->infile > -1)
 				childs(pipex_args->infile, pipex_args->end[i * 2 + 1]);
 			else if (i == pipex_args->pipes)
 				childs(pipex_args->end[2 * (i - 1)], pipex_args->outfile);
-			else
+			else if (pipex_args->outfile > -1)
 				childs(pipex_args->end[2 * (i - 1)],
 					pipex_args->end[i * 2 + 1]);
 			close_pipes(pipex_args);
@@ -169,8 +169,7 @@ void	pipex_bonus(t_pipex *pipex_args, char **envp, char **argv)
 	if (open_pipes(pipex_args) < 0)
 		return (pipe_error(pipex_args));
 	pipex_args->cmd_paths = ft_split(find_path(envp), ':');
-	if (fork_process(pipex_args, envp, argv) < 0)
-		return ;
+	fork_process(pipex_args, envp, argv);
 	close_pipes(pipex_args);
 	i = -1;
 	while (++i < pipex_args->cmd_nb)
@@ -215,16 +214,13 @@ int	main(int ac, char **argv, char **envp)
 	t_pipex	*pipex_args;
 
 	if (ac < 5)
-		return (error_msg("Error: Incorrect number of arguments"));
+		return (error_msg());
 	pipex_args = (t_pipex *) malloc(sizeof(t_pipex));
 	if (!pipex_args)
 		return (-1);
 	here_doc(pipex_args, argv, ac);
 	if (pipex_args->infile < 0 || pipex_args->outfile < 0)
-	{
 		perror("Error");
-		return (free_pipex(pipex_args));
-	}
 	pipex_args->cmd_nb = ac - 3 - pipex_args->here_doc;
 	pipex_args->pipes = ac - 4 - pipex_args->here_doc;
 	if (pipex_args->cmd_nb == 1)
