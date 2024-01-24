@@ -23,6 +23,9 @@
 # include <stdio.h>
 # include <sys/wait.h>
 
+# define ERROR_COMMAND_LINE "usage: ./pipex <infile> <command1> \
+<command2> <outfile> \n"
+
 typedef struct s_pipex
 {
 	int		end[2];

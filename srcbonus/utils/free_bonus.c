@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:17:27 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/01/24 10:17:03 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/01/24 11:27:52 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	close_pipes(t_pipex *pipex)
  * and here_doc-related resources need to be closed or unlinked. It then frees
  * the 't_pipex' structure itself and returns -1 to indicate an error condition.
  */
-int	free_pipex(t_pipex *pipex)
+int	free_pipex(t_pipex *pipex, char *msg)
 {
 	if (pipex->infile > 0)
 		close(pipex->infile);
@@ -63,6 +63,7 @@ int	free_pipex(t_pipex *pipex)
 	if (pipex->here_doc > 0)
 		unlink("tmp_doc.tmp");
 	free(pipex);
+	error_msg(msg);
 	return (-1);
 }
 
@@ -86,15 +87,18 @@ void	parent_free(t_pipex *pipex)
 {
 	int	i;
 
-	i = ft_size(pipex->cmd_paths) - 1;
 	close(pipex->infile);
 	close(pipex->outfile);
-	while (i >= 0)
+	if (pipex->cmd_paths)
 	{
-		free(pipex->cmd_paths[i]);
-		i--;
+		i = ft_size(pipex->cmd_paths) - 1;
+		while (i >= 0)
+		{
+			free(pipex->cmd_paths[i]);
+			i--;
+		}
+		free(pipex->cmd_paths);
 	}
-	free(pipex->cmd_paths);
 	free(pipex->end);
 	if (pipex->here_doc > 0)
 		unlink("tmp_doc.tmp");

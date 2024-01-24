@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:30:51 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/01/24 10:48:31 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/01/24 11:13:57 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	pipe_error(t_pipex *pipex)
  * This function should be used to display informative error messages when
  * necessary and to indicate that an error has occurred.
  */
-int	error_msg(void)
+int	error_msg(char *msg)
 {
-	ft_putstr_fd(strerror(EINVAL), 2);
+	ft_putstr_fd(msg, 2);
 	return (-1);
 }

@@ -169,6 +169,12 @@ void	pipex_bonus(t_pipex *pipex_args, char **envp, char **argv)
 	if (open_pipes(pipex_args) < 0)
 		return (pipe_error(pipex_args));
 	pipex_args->cmd_paths = ft_split(find_path(envp), ':');
+	if (pipex_args->cmd_paths == NULL)
+	{
+		close_pipes(pipex_args);
+		parent_free(pipex_args);
+		return (perror("malloc"));
+	}
 	fork_process(pipex_args, envp, argv);
 	close_pipes(pipex_args);
 	i = -1;
@@ -214,21 +220,19 @@ int	main(int ac, char **argv, char **envp)
 	t_pipex	*pipex_args;
 
 	if (ac < 5)
-		return (error_msg());
+		return (error_msg(ERROR_COMMAND_LINE));
 	pipex_args = (t_pipex *) malloc(sizeof(t_pipex));
 	if (!pipex_args)
-		return (-1);
+		return (error_msg(strerror(ENOMEM)));
 	here_doc(pipex_args, argv, ac);
-	if (pipex_args->infile < 0 || pipex_args->outfile < 0)
-		perror("Error");
 	pipex_args->cmd_nb = ac - 3 - pipex_args->here_doc;
 	pipex_args->pipes = ac - 4 - pipex_args->here_doc;
 	if (pipex_args->cmd_nb == 1)
-		return (free_pipex(pipex_args));
+		return (free_pipex(pipex_args, ERROR_COMMAND_LINE));
 	pipex_args->end = (int *) malloc(sizeof(int) * 2
 			* (ac - 4 - pipex_args->here_doc));
 	if (!pipex_args->end)
-		return (free_pipex(pipex_args));
+		return (free_pipex(pipex_args, strerror(ENOMEM)));
 	pipex_bonus(pipex_args, envp, argv);
 	free(pipex_args);
 	return (0);

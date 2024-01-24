@@ -113,12 +113,15 @@ int	main(int ac, char **argv, char **envp)
 
 	if (ac != 5)
 	{
-		ft_putstr_fd(strerror(EINVAL), 2);
+		ft_putstr_fd(ERROR_COMMAND_LINE, 2);
 		return (-1);
 	}
 	pipex_args = (t_pipex *) malloc(sizeof(t_pipex));
 	if (!pipex_args)
+	{
+		ft_putstr_fd(strerror(ENOMEM), 2);
 		return (-1);
+	}
 	pipex_args->infile = open(argv[1], O_RDONLY);
 	if (pipex_args->infile < 0)
 		perror(argv[1]);

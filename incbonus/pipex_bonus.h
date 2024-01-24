@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 09:22:48 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/01/24 11:10:55 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/01/24 11:41:37 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 # include <errno.h>
 # include <stdio.h>
 # include <sys/wait.h>
+
+# define ERROR_COMMAND_LINE "usage: ./pipex <infile/'<<'> [DELIMETER] \
+<command1> ... <commandN> <outfile> \n" 
 
 typedef struct s_pipex
 {
@@ -54,8 +57,8 @@ int		ft_strcmp(char *s1, char *s2);
 
 void	here_doc(t_pipex *pipex, char **argv, int ac);
 
-int		free_pipex(t_pipex *pipex);
+int		free_pipex(t_pipex *pipex, char *msg);
 
-int		error_msg(void);
+int		error_msg(char *msg);
 
 #endif
