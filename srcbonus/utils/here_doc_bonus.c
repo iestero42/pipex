@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:41:29 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/01/24 11:08:15 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/01/30 09:34:18 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	here_doc(t_pipex *pipex, char **argv, int ac)
 	if (!ft_strcmp(argv[1], "here_doc"))
 	{
 		create_temp_doc(pipex, argv);
-		pipex->outfile = open(argv[ac - 1], O_CREAT | O_RDWR, 0644);
+		pipex->outfile = open(argv[ac - 1], O_CREAT | O_RDWR | O_APPEND, 0644);
 		if (pipex->outfile < 0)
 			perror(argv[ac - 1]);
 	}

@@ -125,6 +125,7 @@ int	fork_process(t_pipex *pipex_args, char **envp, char **argv)
 					pipex_args->end[i * 2 + 1]);
 			close_pipes(pipex_args);
 			exec_comand(pipex_args, envp, argv[i + 2 + pipex_args->here_doc]);
+			exit(0);
 		}
 		i++;
 	}
