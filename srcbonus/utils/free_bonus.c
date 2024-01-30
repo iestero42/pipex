@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:17:27 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/01/24 11:27:52 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/01/30 10:03:36 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	close_pipes(t_pipex *pipex)
 	i = 0;
 	while (i < 2 * pipex->pipes)
 	{
-		close(pipex->end[i]);
+		if (close(pipex->end[i]) < 0)
+			perror("end");
 		i++;
 	}
 }
@@ -57,14 +58,16 @@ void	close_pipes(t_pipex *pipex)
 int	free_pipex(t_pipex *pipex, char *msg)
 {
 	if (pipex->infile > 0)
-		close(pipex->infile);
+		if (close(pipex->infile) < 0)
+			perror("infile");
 	if (pipex->outfile > 0)
-		close(pipex->outfile);
+		if (close(pipex->outfile) < 0)
+			perror("outfile");
 	if (pipex->here_doc > 0)
 		unlink("tmp_doc.tmp");
 	free(pipex);
 	error_msg(msg);
-	return (-1);
+	return (42);
 }
 
 /**
@@ -87,8 +90,10 @@ void	parent_free(t_pipex *pipex)
 {
 	int	i;
 
-	close(pipex->infile);
-	close(pipex->outfile);
+	if (close(pipex->infile) < 0)
+		perror("infile");
+	if (close(pipex->outfile) < 0)
+		perror("outfile");
 	if (pipex->cmd_paths)
 	{
 		i = ft_size(pipex->cmd_paths) - 1;

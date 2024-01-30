@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:30:51 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/01/24 11:13:57 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/01/30 10:08:21 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,14 @@
  */
 void	pipe_error(t_pipex *pipex)
 {
-	close(pipex->infile);
-	close(pipex->outfile);
+	perror("pipe");
+	if (close(pipex->infile) < 0)
+		perror("Error");
+	if (close(pipex->outfile) < 0)
+		perror("Error");
 	free(pipex->end);
 	if (pipex->here_doc > 0)
 		unlink("tmp_doc.tmp");
-	perror("pipex");
 }
 
 /**
@@ -67,5 +69,5 @@ void	pipe_error(t_pipex *pipex)
 int	error_msg(char *msg)
 {
 	ft_putstr_fd(msg, 2);
-	return (-1);
+	return (42);
 }

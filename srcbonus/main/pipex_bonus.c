@@ -226,6 +226,8 @@ int	main(int ac, char **argv, char **envp)
 	if (!pipex_args)
 		return (error_msg(strerror(ENOMEM)));
 	here_doc(pipex_args, argv, ac);
+	if (pipex_args->infile < 0 || pipex_args->outfile < 0)
+		return (42);
 	pipex_args->cmd_nb = ac - 3 - pipex_args->here_doc;
 	pipex_args->pipes = ac - 4 - pipex_args->here_doc;
 	if (pipex_args->cmd_nb == 1)

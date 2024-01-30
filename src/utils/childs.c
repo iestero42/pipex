@@ -39,12 +39,12 @@ void	child_one(t_pipex *pipex_args, char **envp, char **argv)
 		if (dup2(pipex_args->infile, 0) < 0 || dup2(pipex_args->end[1], 1) < 0)
 		{
 			perror("Error");
-			exit(1);
+			exit(42);
 		}
 		if (close(pipex_args->end[0]) < 0)
 		{
 			perror("Error");
-			exit(1);
+			exit(42);
 		}
 		exec_comand(pipex_args, envp, argv[2]);
 	}
@@ -78,12 +78,12 @@ void	child_two(t_pipex *pipex_args, char **envp, char **argv)
 		if (dup2(pipex_args->outfile, 1) < 0 || dup2(pipex_args->end[0], 0) < 0)
 		{
 			perror("Error in dup");
-			exit(1);
+			exit(42);
 		}
 		if (close(pipex_args->end[1]) < 0)
 		{
 			perror("Error in closing end");
-			exit(1);
+			exit(42);
 		}
 		exec_comand(pipex_args, envp, argv[3]);
 	}

@@ -88,7 +88,7 @@ void	exec_comand(t_pipex *pipex_args, char **envp, char *argv)
 		if (cmd)
 			free(cmd);
 		perror("Error");
-		exit(1);
+		exit(42);
 	}
 	free(cmd);
 	child_free(pipex_args);
