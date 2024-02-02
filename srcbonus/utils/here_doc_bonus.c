@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 17:41:29 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/01/30 09:34:18 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/02 09:33:19 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	here_doc(t_pipex *pipex, char **argv, int ac)
 	}
 	else
 	{
+		pipex->here_doc = 0;
 		pipex->infile = open(argv[1], O_RDONLY);
 		if (pipex->infile < 0)
 			perror(argv[1]);

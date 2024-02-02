@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:17:27 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/02/02 07:46:11 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/02 09:02:24 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,12 @@ void	parent_free(t_pipex *pipex)
 	int	i;
 
 	i = ft_size(pipex->cmd_paths) - 1;
-	if (close(pipex->infile) < 0)
-		perror("infile");
-	if (close(pipex->outfile) < 0)
-		perror("outfile");
+	if (pipex->infile > -1)
+		if (close(pipex->infile) < 0)
+			perror("infile");
+	if (pipex->outfile > -1)
+		if (close(pipex->outfile) < 0)
+			perror("outfile");
 	while (i >= 0)
 	{
 		free(pipex->cmd_paths[i]);

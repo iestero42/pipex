@@ -62,14 +62,12 @@ LDLIBS_BONUS		=	$(LIBPIPEX_BONUS) $(LIBFT)
 
 CC					=	gcc
 
-CFLAGS				=	-g -Wall -Werror -Wextra $(INCLUDES) #$(SANITIZE)
-CFLAGS_BONUS		=	-g -Wall -Werror -Wextra $(INCLUDES_BONUS) #$(SANITIZE) 
-LDFLAGS				=	$(LDLIBS) #$(SANITIZE)
-LDFLAGS_BONUS		=	$(LDLIBS_BONUS) #$(SANITIZE)
+CFLAGS				=	-g -Wall -Werror -Wextra $(INCLUDES) -fsanitize=address
+CFLAGS_BONUS		=	-g -Wall -Werror -Wextra $(INCLUDES_BONUS) -fsanitize=address
+LDFLAGS				=	$(LDLIBS)
+LDFLAGS_BONUS		=	$(LDLIBS_BONUS)
 INCLUDES			=	-I$(INC_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/)
 INCLUDES_BONUS		=	-I$(INCBONUS_DIR) -I$(addsuffix $(INC_DIR), $(LIBFT_DIR)/)
-
-SANITIZE			=	-fsanitize=address
 
 MKDIR				=	mkdir -p
 RM					=	rm -f
@@ -148,7 +146,7 @@ $(OBJ_DIR)/%.o:		$(SRC_DIR)/%.c | $(DIRS) $(LIBS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME):			$(OBJ_MAIN) $(LDFLAGS) 
-	@$(CC) $(OBJ_MAIN) $(LDFLAGS) -o $@
+	@$(CC) -fsanitize=address $(OBJ_MAIN) $(LDFLAGS) -o $@
 	@sleep 1
 	@echo "\n$(GREEN)The program is ready.$(SMILEY) $(CHECK)$(NC)"	
 
@@ -185,7 +183,7 @@ $(DIRSBONUS):
 	@$(MKDIR) $(DIRSBONUS)
 
 $(BONUS):				$(LDFLAGS_BONUS) $(OBJBONUS_MAIN)
-	@$(CC) $(OBJBONUS_MAIN) $(LDFLAGS_BONUS) -o $(NAME)
+	@$(CC) -fsanitize=address $(OBJBONUS_MAIN) $(LDFLAGS_BONUS) -o $(NAME)
 	@touch $@
 	@echo "\n$(GREEN)The program is ready.$(SMILEY) $(CHECK)$(NC)"		
 
