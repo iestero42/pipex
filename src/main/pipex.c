@@ -60,10 +60,11 @@ char	*find_path(char **envp)
  * - Waits for both child processes to complete using 'waitpid'.
  * - Cleans up resources by calling 'parent_free'.
  */
-void	pipex(t_pipex *pipex_args, char **envp, char **argv)
+int	pipex(t_pipex *pipex_args, char **envp, char **argv)
 {
 	pid_t	child1;
 	pid_t	child2;
+	int		status;
 
 	if (pipe(pipex_args->end) < 0)
 		return (pipe_error(pipex_args));
@@ -79,9 +80,12 @@ void	pipex(t_pipex *pipex_args, char **envp, char **argv)
 	if (child2 == 0)
 		child_two(pipex_args, envp, argv);
 	close_pipes(pipex_args->end);
-	waitpid(child1, NULL, 0);
-	waitpid(child2, NULL, 0);
+	waitpid(child1, &status, 0);
+	waitpid(child2, &status, 0);
 	parent_free(pipex_args);
+	if (status != 0)
+		return (127);
+	return (0);
 }
 
 /**
@@ -110,17 +114,18 @@ void	pipex(t_pipex *pipex_args, char **envp, char **argv)
 int	main(int ac, char **argv, char **envp)
 {
 	t_pipex	*pipex_args;
+	int		status;
 
 	if (ac != 5)
 	{
 		ft_putstr_fd(ERROR_COMMAND_LINE, 2);
-		return (42);
+		return (0);
 	}
 	pipex_args = (t_pipex *) malloc(sizeof(t_pipex));
 	if (!pipex_args)
 	{
 		ft_putstr_fd(strerror(ENOMEM), 2);
-		return (42);
+		return (0);
 	}
 	pipex_args->infile = open(argv[1], O_RDONLY);
 	if (pipex_args->infile < 0)
@@ -128,7 +133,7 @@ int	main(int ac, char **argv, char **envp)
 	pipex_args->outfile = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (pipex_args->outfile < 0)
 		perror(argv[4]);
-	pipex(pipex_args, envp, argv);
+	status = pipex(pipex_args, envp, argv);
 	free(pipex_args);
-	return (0);
+	return (status);
 }

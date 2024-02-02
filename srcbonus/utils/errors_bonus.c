@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 17:30:51 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/02/02 09:26:39 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/02 10:04:46 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
  * This function should be used to handle pipe-related errors and should be
  * called when 'pipe' system calls fail.
  */
-void	pipe_error(t_pipex *pipex)
+int	pipe_error(t_pipex *pipex)
 {
 	perror("pipe");
 	if (close(pipex->infile) < 0)
@@ -44,6 +44,7 @@ void	pipe_error(t_pipex *pipex)
 	free(pipex->end);
 	if (pipex->here_doc > 0)
 		unlink("tmp_doc.tmp");
+	return (0);
 }
 
 /**
@@ -69,5 +70,5 @@ void	pipe_error(t_pipex *pipex)
 int	error_msg(char *msg)
 {
 	ft_putstr_fd(msg, 2);
-	return (42);
+	return (0);
 }

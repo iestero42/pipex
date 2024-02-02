@@ -54,7 +54,7 @@ void	child_free(t_pipex *pipex);
 
 int		ft_size(char **pointer);
 
-void	pipe_error(t_pipex *pipex);
+int		pipe_error(t_pipex *pipex);
 
 int		error_msg(char *str);
 

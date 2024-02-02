@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 09:22:48 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/02/02 08:38:59 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/02 10:03:55 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_pipex
 
 void	childs(int read, int write);
 
-void	pipe_error(t_pipex *pipex);
+int		pipe_error(t_pipex *pipex);
 
 void	exec_comand(t_pipex *pipex_args, char **envp, char *argv);
 

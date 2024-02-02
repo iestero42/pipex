@@ -163,9 +163,10 @@ int	fork_process(t_pipex *pipex_args, char **envp, char **argv)
  * This function should be used for executing pipex with bonus features and
  * managing child processes within the pipeline.
  */
-void	pipex_bonus(t_pipex *pipex_args, char **envp, char **argv)
+int	pipex_bonus(t_pipex *pipex_args, char **envp, char **argv)
 {
 	int	i;
+	int	status;
 
 	if (open_pipes(pipex_args) < 0)
 		return (pipe_error(pipex_args));
@@ -174,14 +175,18 @@ void	pipex_bonus(t_pipex *pipex_args, char **envp, char **argv)
 	{
 		close_pipes(pipex_args);
 		parent_free(pipex_args);
-		return (perror("malloc"));
+		perror("malloc");
+		return (0);
 	}
 	fork_process(pipex_args, envp, argv);
 	close_pipes(pipex_args);
 	i = -1;
 	while (++i < pipex_args->cmd_nb)
-		wait(NULL);
+		wait(&status);
 	parent_free(pipex_args);
+	if (status != 0)
+		return (127);
+	return (0);
 }
 
 /**
@@ -219,6 +224,7 @@ void	pipex_bonus(t_pipex *pipex_args, char **envp, char **argv)
 int	main(int ac, char **argv, char **envp)
 {
 	t_pipex	*pipex_args;
+	int		status;
 
 	if (ac < 5)
 		return (error_msg(ERROR_COMMAND_LINE));
@@ -227,7 +233,7 @@ int	main(int ac, char **argv, char **envp)
 		return (error_msg(strerror(ENOMEM)));
 	here_doc(pipex_args, argv, ac);
 	if (pipex_args->infile < 0 || pipex_args->outfile < 0)
-		return (42);
+		return (0);
 	pipex_args->cmd_nb = ac - 3 - pipex_args->here_doc;
 	pipex_args->pipes = ac - 4 - pipex_args->here_doc;
 	if (pipex_args->cmd_nb == 1)
@@ -236,7 +242,7 @@ int	main(int ac, char **argv, char **envp)
 			* (ac - 4 - pipex_args->here_doc));
 	if (!pipex_args->end)
 		return (free_pipex(pipex_args, strerror(ENOMEM)));
-	pipex_bonus(pipex_args, envp, argv);
+	status = pipex_bonus(pipex_args, envp, argv);
 	free(pipex_args);
-	return (0);
+	return (status);
 }

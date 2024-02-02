@@ -43,6 +43,6 @@ void	childs(int read, int write)
 		|| dup2(write, 1) < 0)
 	{
 		perror("Error");
-		exit(42);
+		exit(127);
 	}
 }
