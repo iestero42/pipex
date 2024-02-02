@@ -26,6 +26,8 @@
 # define ERROR_COMMAND_LINE "usage: ./pipex <infile> <command1> \
 <command2> <outfile> \n"
 
+# define UNQUOTED 0
+
 typedef struct s_pipex
 {
 	int		end[2];
@@ -55,5 +57,9 @@ int		ft_size(char **pointer);
 void	pipe_error(t_pipex *pipex);
 
 int		error_msg(char *str);
+
+char	**split_command(const char *s);
+
+void	double_free(char **ptr);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 09:22:48 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/01/24 11:41:37 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/02 08:38:59 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 
 # define ERROR_COMMAND_LINE "usage: ./pipex <infile/'<<'> [DELIMETER] \
 <command1> ... <commandN> <outfile> \n" 
+
+# define UNQUOTED 0
 
 typedef struct s_pipex
 {
@@ -60,5 +62,9 @@ void	here_doc(t_pipex *pipex, char **argv, int ac);
 int		free_pipex(t_pipex *pipex, char *msg);
 
 int		error_msg(char *msg);
+
+char	**split_command(const char *s);
+
+void	double_free(char **ptr);
 
 #endif

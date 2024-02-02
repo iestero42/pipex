@@ -13,6 +13,46 @@
 #include "pipex.h"
 
 /**
+ * @brief Trims leading and trailing characters from a string.
+ *
+ * This function removes any leading or trailing characters specified in 'trim'
+ * from the beginning or end of 's'. It returns a pointer to the trimmed string.
+ *
+ * @param s   The string to trim.
+ * @param trim   The set of characters to trim from 's'.
+ *
+ * @return    A pointer to the trimmed string.
+ */
+void	trim_command(char **cmd)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	i = 0;
+	while (cmd[i] != NULL)
+	{
+		j = -1;
+		while (++j < 2)
+		{
+			if (cmd[i][0] == '\'')
+			{
+				tmp = ft_strtrim(cmd[i], "'");
+				free(cmd[i]);
+				cmd[i] = tmp;
+			}
+			else if (cmd[i][0] == '"')
+			{
+				tmp = ft_strtrim(cmd[i], "\"");
+				free(cmd[i]);
+				cmd[i] = tmp;
+			}
+		}
+		i++;
+	}
+}
+
+/**
  * @brief Find the full path to an executable command.
  *
  * This function searches for the full path to an executable command 'cmd' by
@@ -80,7 +120,8 @@ void	exec_comand(t_pipex *pipex_args, char **envp, char *argv)
 {
 	char	*cmd;
 
-	pipex_args->cmd_arg = ft_split(argv, ' ');
+	pipex_args->cmd_arg = split_command((const char *) argv);
+	trim_command(pipex_args->cmd_arg);
 	cmd = get_cmd(pipex_args->cmd_paths, pipex_args->cmd_arg[0]);
 	if (execve(cmd, pipex_args->cmd_arg, envp) < 0)
 	{

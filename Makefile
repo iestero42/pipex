@@ -107,6 +107,7 @@ UTILS_BONUS_FILES	=	free_bonus.c			\
 						here_doc_bonus.c		\
 						math_utils_bonus.c		\
 						exec_comand_bonus.c		\
+						split_command.c			\
 
 SRCSBONUS_FILES		=	$(addprefix $(MAIN_DIR)/, $(MAIN_BONUS_FILES)) \
 						$(addprefix $(UTILS_DIR)/, $(UTILS_BONUS_FILES)) \

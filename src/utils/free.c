@@ -6,7 +6,7 @@
 /*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:17:27 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/01/30 09:58:50 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/02/02 07:46:11 by iestero-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,21 @@ void	child_free(t_pipex *pipex)
 		i--;
 	}
 	free(pipex->cmd_arg);
+}
+
+/**
+ * @brief 
+ * 
+ */
+void	double_free(char **ptr)
+{
+	int	i;
+
+	i = ft_size(ptr) - 1;
+	while (i >= 0)
+	{
+		free(ptr[i]);
+		i--;
+	}
+	free(ptr);
 }
