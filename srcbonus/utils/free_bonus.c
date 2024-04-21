@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iestero- <iestero-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 14:17:27 by yunlovex          #+#    #+#             */
-/*   Updated: 2024/02/02 09:39:46 by iestero-         ###   ########.fr       */
+/*   Updated: 2024/04/21 11:46:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,15 @@ void	child_free(t_pipex *pipex)
 }
 
 /**
- * @brief 
- * 
+ * @brief Frees a 2D array of characters.
+ *
+ * This function frees a 2D array of characters 'ptr'. It first calculates the
+ * size of 'ptr' using the 'ft_size' function and subtracts 1 to get the index
+ * of the last element. It then enters a loop where it frees the 'i'th element
+ * of 'ptr' and decrements 'i'. The loop continues until 'i' is less than 0.
+ * After the loop, it frees 'ptr'.
+ *
+ * @param ptr  The 2D array to be freed.
  */
 void	double_free(char **ptr)
 {
